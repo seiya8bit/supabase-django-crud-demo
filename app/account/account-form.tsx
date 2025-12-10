@@ -48,7 +48,10 @@ export default function AccountForm({ user }: { user: User | null }) {
         id: user?.id as string,
         email,
       })
-      if (error) throw error
+      if (error) {
+        console.log(error)
+        throw error
+      }
       alert('Profile updated!')
     } catch (error) {
       alert('Error updating the data!')
