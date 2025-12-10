@@ -6,8 +6,6 @@ import { type User } from '@supabase/supabase-js'
 export default function AccountForm({ user }: { user: User | null }) {
   const supabase = createClient()
   const [loading, setLoading] = useState(true)
-  const [id, setId] = useState<string | null>(null)
-  const [email, setEmail] = useState<string | null>(null)
 
   const getProfile = useCallback(async () => {
     try {
@@ -23,11 +21,6 @@ export default function AccountForm({ user }: { user: User | null }) {
         console.log(error)
         throw error
       }
-
-      if (data) {
-        setId(data.id)
-        setEmail(data.email)
-      }
     } catch (error) {
       console.log(error)
       alert('Error loading user data!')
@@ -40,7 +33,7 @@ export default function AccountForm({ user }: { user: User | null }) {
     getProfile()
   }, [user, getProfile])
 
-  async function updateProfile({ email }: { email: string | null }) {
+  async function updateProfile({ email }: { email: string }) {
     try {
       setLoading(true)
 
@@ -69,7 +62,7 @@ export default function AccountForm({ user }: { user: User | null }) {
       <div>
         <button
           className="button primary block"
-          onClick={() => updateProfile({ email })}
+          onClick={() => updateProfile({ email: user?.email ?? '' })}
           disabled={loading}
         >
           {loading ? 'Loading ...' : 'Update'}
